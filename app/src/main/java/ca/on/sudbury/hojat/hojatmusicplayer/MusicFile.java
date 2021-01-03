@@ -1,6 +1,6 @@
 package ca.on.sudbury.hojat.hojatmusicplayer;
 
-public class MusicFiles {
+public class MusicFile {
     private String path;
     private String title;
     private String artist;
@@ -8,7 +8,7 @@ public class MusicFiles {
     private String duration;
     private String id;
 
-    public MusicFiles(String path, String title, String artist, String album, String duration, String id) {
+    public MusicFile(String path, String title, String artist, String album, String duration, String id) {
         this.path = path;
         this.title = title;
         this.artist = artist;
@@ -18,7 +18,7 @@ public class MusicFiles {
     }
 
 
-    public MusicFiles() {
+    public MusicFile() {
     }
 
     public String getPath() {

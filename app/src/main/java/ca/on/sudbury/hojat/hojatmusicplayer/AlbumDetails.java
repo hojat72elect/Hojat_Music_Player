@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -13,13 +12,14 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import static ca.on.sudbury.hojat.hojatmusicplayer.MainActivity.musicFiles;
+import static ca.on.sudbury.hojat.hojatmusicplayer.MusicAdapter.getAlbumArt;
 
 public class AlbumDetails extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ImageView albumPhoto;
     String albumName;
-    ArrayList<MusicFiles> albumSongs = new ArrayList<>();
+    ArrayList<MusicFile> albumSongs = new ArrayList<>();
     AlbumDetailsAdapter albumDetailsAdapter;
 
     @Override
@@ -60,11 +60,5 @@ public class AlbumDetails extends AppCompatActivity {
         }
     }
 
-    private byte[] getAlbumArt(String uri) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte[] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
-    }
+
 }

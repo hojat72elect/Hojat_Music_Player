@@ -1,0 +1,5 @@
+** never try to change the warnings that are already in this app, it will ruin the performance. **
+
+changelog 0.1.1:
+1- I just have made it a little bit more clean code, removed some redundant methods.
+2- I also renamed some entities inside the project in order to make the code more readable.

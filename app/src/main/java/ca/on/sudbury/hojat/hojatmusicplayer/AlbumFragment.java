@@ -1,18 +1,15 @@
 package ca.on.sudbury.hojat.hojatmusicplayer;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static ca.on.sudbury.hojat.hojatmusicplayer.MainActivity.albums;
-import static ca.on.sudbury.hojat.hojatmusicplayer.MainActivity.musicFiles;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +19,7 @@ public class AlbumFragment extends Fragment {
     AlbumAdapter albumAdapter;
 
     public AlbumFragment() {
-        // Required empty public constructor
+        // Required empty public constructor.
     }
 
     @Override

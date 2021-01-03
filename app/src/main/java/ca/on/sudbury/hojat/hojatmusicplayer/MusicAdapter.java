@@ -24,16 +24,27 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.util.ArrayList;
 
+
+/**
+ * The kind of adapter we'll have for managing our RecyclerViews.
+ */
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder> {
 
+    static ArrayList<MusicFile> mFiles;
     private Context mContext;
-    static ArrayList<MusicFiles> mFiles;
 
-    MusicAdapter(Context mContext, ArrayList<MusicFiles> mFiles) {
+    MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles) {
         this.mFiles = mFiles;
         this.mContext = mContext;
     }
 
+    public static byte[] getAlbumArt(String uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] art = retriever.getEmbeddedPicture();
+        retriever.release();
+        return art;
+    }
 
     @NonNull
     @Override
@@ -78,11 +89,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.delete:
-                                Toast.makeText(mContext, "Delete Clicked!!", Toast.LENGTH_LONG).show();
-                                deleteFile(position, v);
-                                break;
+                        if (item.getItemId() == R.id.delete) {
+                            Toast.makeText(mContext, "Delete Clicked!!", Toast.LENGTH_LONG).show();
+                            deleteFile(position, v);
                         }
                         return true;
                     }
@@ -91,7 +100,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         });
 
     }
-
 
     private void deleteFile(int position, View v) {
 
@@ -116,6 +124,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         return mFiles.size();
     }
 
+    void updateList(ArrayList<MusicFile> musicFileArrayList) {
+        mFiles = new ArrayList<>();
+        mFiles.addAll(musicFileArrayList);
+        notifyDataSetChanged();
+
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView fileName;
@@ -128,21 +143,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             menuMore = itemView.findViewById(R.id.menuMore);
 
         }
-    }
-
-    private byte[] getAlbumArt(String uri) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte[] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
-    }
-
-    void updateList(ArrayList<MusicFiles> musicFilesArrayList) {
-        mFiles = new ArrayList<>();
-        mFiles.addAll(musicFilesArrayList);
-        notifyDataSetChanged();
-
     }
 
 }

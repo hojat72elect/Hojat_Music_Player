@@ -1,10 +1,5 @@
 package ca.on.sudbury.hojat.hojatmusicplayer;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSeekBar;
-import androidx.palette.graphics.Palette;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,23 +30,22 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static ca.on.sudbury.hojat.hojatmusicplayer.AlbumDetailsAdapter.albumFiles;
-import static ca.on.sudbury.hojat.hojatmusicplayer.MainActivity.musicFiles;
 import static ca.on.sudbury.hojat.hojatmusicplayer.MainActivity.repeatBoolean;
 import static ca.on.sudbury.hojat.hojatmusicplayer.MainActivity.shuffleBoolean;
 import static ca.on.sudbury.hojat.hojatmusicplayer.MusicAdapter.mFiles;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+//todo: this class needs to perform the play via a service.
 
+    static ArrayList<MusicFile> listSongs = new ArrayList<>();
+    static Uri uri;
+    static MediaPlayer mediaPlayer;
     TextView songName, artistName, durationPlayed, durationTotalTV;
     ImageView coverArt, nextBtn, prevBtn, backBtn, shuffleBtn, repeatBtn;
     FloatingActionButton playPauseBtn;
     AppCompatSeekBar seekBar;
     int position = -1;
-    static ArrayList<MusicFiles> listSongs = new ArrayList<>();
-    static Uri uri;
-    static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
-    private Thread playThread, prevThread, nextThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +77,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
             }
         });
+
         PlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -127,7 +127,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     }
 
     private void nextThreadBtn() {
-        nextThread = new Thread() {
+        Thread nextThread = new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -212,7 +212,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     }
 
     private void prevThreadBtn() {
-        prevThread = new Thread() {
+        Thread prevThread = new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -295,7 +295,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     }
 
     private void playThreadBtn() {
-        playThread = new Thread() {
+        Thread playThread = new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -350,8 +350,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     private String formattedTime(int mCurrentPosition) {
 
-        String totalOut = "";
-        String totalNew = "";
+        String totalOut;
+        String totalNew;
         String seconds = String.valueOf(mCurrentPosition % 60);
         String minutes = String.valueOf(mCurrentPosition / 60);
         totalOut = minutes + ":" + seconds;
@@ -382,12 +382,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            mediaPlayer.start();
-        } else {
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            mediaPlayer.start();
         }
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+        mediaPlayer.start();
         seekBar.setMax(mediaPlayer.getDuration() / 1000);
         metaData(uri);
 
@@ -425,6 +422,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(@Nullable Palette palette) {
+                    assert palette != null;
                     Palette.Swatch swatch = palette.getDominantSwatch();
                     if (swatch != null) {
 

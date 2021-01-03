@@ -2,7 +2,6 @@ package ca.on.sudbury.hojat.hojatmusicplayer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,14 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
-    private Context mContext;
-    private ArrayList<MusicFiles> albumFiles;
-    View view;
+import static ca.on.sudbury.hojat.hojatmusicplayer.MusicAdapter.getAlbumArt;
 
-    public AlbumAdapter(Context mContext, ArrayList<MusicFiles> albumFiles) {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
+    View view;
+    private Context mContext;
+    private ArrayList<MusicFile> albumFiles;
+
+    public AlbumAdapter(Context mContext, ArrayList<MusicFile> albumFiles) {
         this.mContext = mContext;
         this.albumFiles = albumFiles;
     }
@@ -75,14 +76,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
             albumName = itemView.findViewById(R.id.album_name);
 
         }
-    }
-
-    private byte[] getAlbumArt(String uri) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte[] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
     }
 
 
